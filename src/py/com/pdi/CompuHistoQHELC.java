@@ -1,5 +1,4 @@
 package py.com.pdi;
-
 import java.util.Arrays;
 
 import ij.ImagePlus;
@@ -7,8 +6,8 @@ import ij.plugin.filter.PlugInFilter;
 import ij.process.ByteProcessor;
 import ij.process.ImageProcessor;
 
-
-public class QHELC implements PlugInFilter {
+public class CompuHistoQHELC implements PlugInFilter{
+	
 	ImagePlus imp;
 	
 	public int setup(String arg, ImagePlus imp) {
@@ -21,71 +20,16 @@ public class QHELC implements PlugInFilter {
 		//int[] h_mod = new int[256];
 		int M = ip.getWidth();
 		int N = ip.getHeight();
-		int i1= 0, i2=0, i3=0, i4=0;
-		int c1=0, c2=0, c3=0, c4=0;
-		int prom1, prom2, prom3, prom4;
-		for(int v = 0; v < M; v++){
-			for(int u = 0; u < N; u++){
-				int i = ip.getPixel(u, v);
-				if (i>=0 && i<=63){
-					i1= i1 + i;
-					c1= c1+1;
-				}
-				else if (i>=64 && i<=128){
-					i2= i2 + i;
-					c2= c2+1;
-				}
-				else if (i>=129 && i<=191){
-					i3= i3 + i;
-					c3= c3+1;
-				}
-				else if (i>=192 && i<255){
-					i4= i4 + i;
-					c4= c4+1;
-				}
-			}
-		}
-		prom1= (int) (1.0*i1/c1);
-		prom2= (int) (1.0*i2/c2);
-		prom3= (int) (1.0*i3/c3);
-		prom4= (int) (1.0*i4/c4);
-		//System.out.print("Prueba");
-		//System.out.print(prom4);
-		//System.out.print(prom3);
-		//System.out.print(prom4);
 		
-		for(int v = 0; v < M; v++){
-			for(int u = 0; u < N; u++){
+		for(int v = 0; v < N; v++){
+			for(int u = 0; u < M; u++){
 				int i = ip.getPixel(u, v);
-				if (i>=0 && i<=63){
-					if (i>prom1){
-						ip.putPixel(u, v, prom1);
-						i = ip.getPixel(u, v);						
-					}
-				}
-				else if (i>=64 && i<=128){
-					if (i>prom2){
-						ip.putPixel(u, v, prom2);
-						i = ip.getPixel(u, v);						
-					}
-				}
-				else if (i>=129 && i<=191){
-					if (i>prom3){
-						ip.putPixel(u, v, prom3);
-						i = ip.getPixel(u, v);						
-					}
-				}
-				else if (i>=192 && i<=255){
-					if (i>255){
-						ip.putPixel(u, v, 255);
-						i = ip.getPixel(u, v);						
-					}
-				}
 				h[i] = h[i] + 1;
 			}
 		}
-				
-		//System.out.println(Arrays.toString(h));
+		
+
+		System.out.println(Arrays.toString(h));
 		// ... histogram h can now be used
 
 		// create the histogram image:
